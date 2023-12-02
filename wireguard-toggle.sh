@@ -171,6 +171,7 @@ menu(){
 				echo -e "\tRebooting, Bye Bye"
 				nvram commit
 				/sbin/reboot
+    				exit 0
 			else
 				echo -e "\tABORT"
 			fi
