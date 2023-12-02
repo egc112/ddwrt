@@ -123,7 +123,7 @@ menu(){
 	show_tunnels
 	echo -ne "
 	WireGuard toggle script to enable/disable tunnels from the command line
-	$(ColorGreen '1)') Showtunnels
+	$(ColorGreen '1)') Showtunnels/Refresh
 	$(ColorGreen '2)') Toggle
 	$(ColorGreen '7)') Save, Restart WireGuard
 	$(ColorGreen '8)') Save, Restart WireGuard and whole Firewall, this will temporarily suspend services!
