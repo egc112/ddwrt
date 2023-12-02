@@ -53,6 +53,7 @@ toggle_confirm(){
 	if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
 		#echo -e " Toggle tunnel $1"
 		nvram set oet${1}_en=$2
+  		echo -e  "\tDo not forget to Save and Restart to execute changes !"
 		return 0
 	else
 		echo -e "Abort"
