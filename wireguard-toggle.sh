@@ -53,7 +53,6 @@ toggle_confirm(){
 	if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
 		#echo -e " Toggle tunnel $1"
 		nvram set oet${1}_en=$2
-  		echo -e  "\tDo not forget to Save and Restart to execute changes !"
 		return 0
 	else
 		echo -e "Abort"
@@ -65,11 +64,11 @@ toggle_tunnel(){
 	tstate=$(nvram get oet${1}_en)
 	if [[ $tstate -eq 0 ]]; then
 		toggle_confirm $1 1
-		echo -e "\tTunnel $1 is now ${green}enabled${clear}"
+		echo -e "\tTunnel $1 will be ${green}enabled${clear} after Restart"
 		menu
 	elif [[ $tstate -eq 1 ]]; then
 		toggle_confirm $1 0
-		echo -e "\tTunnel $1 is now ${red}disabeld${clear}"
+		echo -e "\tTunnel $1 will be ${red}disabeld${clear} after Restart"
 		menu
 	else
 		echo -e $red"\tTunnel $1 does not exist"$clear Please choose an existing tunnel; return 1
@@ -117,7 +116,7 @@ submenu_toggle () {
 }
 
 menu(){
-	echo -e "\n\tWireGuard tunnels with number, state and label\n"
+	echo -e "\n\tWireGuard tunnels with number, state, fail_state and label\n"
 	show_tunnels
 	echo -ne "
 	WireGuard toggle script to enable/disable tunnels from the command line
