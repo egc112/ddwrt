@@ -2,7 +2,7 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 #	name: wireguard-toggle.sh
-#	version: 0.4 beta, 5-dec-2023, by egc
+#	version: 0.5 beta, 6-dec-2023, by egc
 #	purpose: 
 #	script type: standalone
 #	 1. enable jffs2 (administration->jffs2) or use USB stick for storage with /jffs
@@ -122,7 +122,9 @@ menu(){
 	WireGuard toggle script to enable/disable tunnels from the command line
 	$(ColorGreen '1)') Showtunnels
 	$(ColorGreen '2)') Toggle
-	$(ColorGreen '9)') Save, Restart WireGuard
+	$(ColorGreen '7)') Save, Restart WireGuard
+	$(ColorGreen '8)') Save, Restart WireGuard and whole Firewall, this will temporarily suspend services!
+	$(ColorGreen '9)') Save, Reboot Router
 	$(ColorGreen '0)') Exit
 	$(ColorBlue 'Choose an option:') "
 	read a
@@ -135,13 +137,37 @@ menu(){
 			submenu_toggle
 			menu
 			;;
-		9 )
-			echo -e -n "\tAre you sure to save changes and restart Wireguard y/n ?: "
+		7 )
+			echo -e -n "\tAre you sure to save changes and restart WireGuard y/n ?: "
 			read y_or_n
 			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
 				echo -e "\tSaving and Restarting"
 				nvram commit
 				/usr/bin/wireguard-restart.sh
+			else
+				echo -e "\tABORT"
+			fi
+			menu
+			;;
+		8 )
+			echo -e -n "\tAre you sure to save changes and restart WireGuard and the whole Firewall y/n ?: "
+			read y_or_n
+			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
+				echo -e "\tSaving and Restarting Firewall"
+				nvram commit
+				restart firewall
+			else
+				echo -e "\tABORT"
+			fi
+			menu
+			;;
+		9 )
+			echo -e -n "\tAre you sure you want to Reboot y/n ?: "
+			read y_or_n
+			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
+				echo -e "\tRebooting, Bye Bye"
+				nvram commit
+				/sbin/reboot
 			else
 				echo -e "\tABORT"
 			fi
