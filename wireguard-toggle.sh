@@ -14,13 +14,13 @@
 #		wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
 #	 3. make this script executable with chmod +x /jffs/wireguard-toggle.sh
 #	 4. run from command line with/jfss/wireguard-toggle.sh
-#    If you do not have permanet storage you can reinstall the script automatically on reboot by adding 
+#    If you do not have permanent storage you can reinstall the script automatically on reboot by adding 
 #    the following to Administration > Commands and Save as Startup:
 #      sleep 10
 #      cd /tmp
 #      curl -LJO https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
 #      chmod +x wireguard-toggle.sh
-#	usage:
+#     usage:
 #	 toggle tunnels to enable/disable the tunnel and restart wireguard
 #	limitations:
 #    - requires dd-wrt build 52241 or later
