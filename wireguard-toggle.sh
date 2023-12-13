@@ -2,7 +2,7 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 #	name: wireguard-toggle.sh
-#	version: 0.9 beta, 12-dec-2023, by egc
+#	version: 0.91 beta, 13-dec-2023, by egc
 #	purpose: 
 #	script type: standalone
 #	installation:
@@ -43,6 +43,7 @@ ColorRed(){
 	echo -ne $red$1$clear
 }
 ##
+nrtun="$(nvram get oet_tunnels)"
 
 WrongCommand () {
 	#do nothing
@@ -51,8 +52,8 @@ WrongCommand () {
 
 toggle_confirm(){
 	[[ $2 -eq 0 ]] && state="${red}disable${clear}" || state="${green}enable${clear}"
-	echo -e -n "  Do you want to ${state} tunnel ${yellow}$1${clear}: y/n ? : "
-	read  y_or_n
+	echo -e -n "  Do you want to ${state} tunnel ${yellow}$1${clear}: y/N ? : "
+	read -n 1 y_or_n
 	if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
 		#echo -e " Toggle tunnel $1"
 		nvram set oet${1}_en=$2
@@ -72,37 +73,20 @@ toggle_tunnel(){
 	tstate=$(nvram get oet${1}_en)
 	if [[ $tstate -eq 0 ]]; then
 		toggle_confirm $1 1
-		echo -e "  Tunnel $1 will be ${green}enabled${clear} after Restart"
+		echo -e "\n  Tunnel $1 will be ${green}enabled${clear} after Restart"
 		echo -e "  ${yellow}To execute your command Restart WireGuard or the router!${clear}"
 		any_key
 		return 0
 	elif [[ $tstate -eq 1 ]]; then
 		toggle_confirm $1 0
-		echo -e "  Tunnel $1 will be ${red}disabeld${clear} after Restart"
-		echo -e "\n  ${yellow}To execute your command Restart WireGuard or the router!${clear}\n"
+		echo -e "\n  Tunnel $1 will be ${red}disabled${clear} after Restart"
+		echo -e "  ${yellow}To execute your command Restart WireGuard or the router!${clear}"
+		any_key
 		return 0
 	else
 		echo -e $red"  Tunnel $1 does not exist"$clear Please choose an existing tunnel; return 1
 	fi
 	return 0
-}
-
-submenu_showstatus(){
-	echo -ne "\n  $(ColorYellow 'Please enter the tunnel you want to see, 0=Exit': ) "
-	read sn
-	if  [[ $sn -eq 0 ]]; then
-		echo -e "  Returning to main menu"
-		return 0
-	elif [[ $sn -gt 0 && $sn -lt 20 ]] ; then
-		echo -e "\n  ${blue}Status of${clear} ${yellow}oet${sn}${clear}:"
-		stat="$(/usr/bin/wireguard-state.sh $sn 0 2>/dev/null)"
-		[[ -z "$stat" ]] && stat="  No connection present for oet${sn}"
-		echo -e "$stat"
-		any_key
-		return 0
-	else
-		echo -e $red"  \nWrong option."$clear; submenu_showstatus
-	fi
 }
 
 show_tunnels(){
@@ -127,15 +111,34 @@ show_tunnels(){
 	#echo -e ""
 }
 
-submenu_toggle () {
+submenu_showstatus(){
 	show_tunnels
-	echo -ne "\n  $(ColorYellow 'Please enter tunnel number to toggle, 0=Exit': ) "
-	read tn
-	if  [[ $tn -eq 0 ]]; then
+	echo -ne "\n  $(ColorYellow 'Please enter the tunnel you want to see, 0=Exit': ) "
+	[[ "$nrtun" -lt 10 ]] && read -n 1 sn || read sn # use this with more than 10 tunnels
+	if  [[ $sn -eq 0 ]]; then
 		echo -e "  Returning to main menu"
 		return 0
-	elif [[ $tn -gt 0 && $tn -lt 20 ]] ; then
-		echo -e "  You chose tunnel number $tn"
+	elif [[ $sn -gt 0 && $sn -le $nrtun ]] ; then
+		echo -e "\n  ${blue}Status of${clear} ${yellow}oet${sn}${clear}:"
+		stat="$(/usr/bin/wireguard-state.sh $sn 0 2>/dev/null)"
+		[[ -z "$stat" ]] && stat="  No connection present for oet${sn}"
+		echo -e "$stat"
+		any_key
+		return 0
+	else
+		echo -e $red"  \nWrong option."$clear; submenu_showstatus
+	fi
+}
+
+submenu_toggle () {
+	show_tunnels
+	echo -ne "\n  ${yellow}Please enter tunnel to toggle (1 - $nrtun, 0=Exit):${clear} "
+	[[ "$nrtun" -lt 10 ]] && read -n 1 tn || read tn # use this with more than 10 tunnels
+	if  [[ $tn -eq 0 ]]; then
+		echo -e "\n  Returning to main menu"
+		return 0
+	elif [[ $tn -gt 0 && $tn -le $nrtun ]] ; then
+		echo -e "\n  You chose tunnel number $tn"
 		toggle_tunnel $tn
 		return 0
 	else
@@ -158,7 +161,7 @@ menu(){
   $(ColorGreen '9)') Save, Reboot Router
   $(ColorGreen '0)') Exit
   $(ColorBlue 'Choose an option:') "
-	read a
+	read -n 1 a
 	case $a in
 		"1"|"" )
 			menu
@@ -174,16 +177,16 @@ menu(){
 			menu
 			;;
 		4 )
-			echo -e "  You chose main item 4, Show WireGuard Log\n"
+			#echo -e "  You chose main item 4, Show WireGuard Log\n"
 			grep -i -E 'oet|wireguard|eop' /var/log/messages
 			any_key
 			menu
 			;;
 		7 )
-			echo -e -n "  Save changes and restart WireGuard y/n ?: "
-			read y_or_n
+			echo -e -n "\n  Save changes and restart WireGuard y/N ?: "
+			read -n 1 y_or_n
 			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
-				echo -e "  Saving and Restarting"
+				echo -e "\n  Saving and Restarting"
 				nvram commit
 				/usr/bin/wireguard-restart.sh
 			else
@@ -193,10 +196,10 @@ menu(){
 			menu
 			;;
 		8 )
-			echo -e -n "  Save changes, restart WireGuard and Firewall y/n ?: "
-			read y_or_n
+			echo -e -n "\n  Save changes, restart WireGuard and Firewall y/N ?: "
+			read -n 1 y_or_n
 			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
-				echo -e "  Saving and Restarting Firewall"
+				echo -e "\n  Saving and Restarting Firewall"
 				nvram commit
 				restart firewall
 			else
@@ -206,10 +209,10 @@ menu(){
 			menu
 			;;
 		9 )
-			echo -e -n "  Are you sure you want to Reboot y/n ?: "
-			read y_or_n
+			echo -e -n "\n  Are you sure you want to Reboot y/N ?: "
+			read -n 1 y_or_n
 			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
-				echo -e "  Rebooting, Bye Bye"
+				echo -e "\n  Rebooting, Bye Bye"
 				nvram commit
 				/sbin/reboot
 				exit 0
@@ -219,7 +222,7 @@ menu(){
 			fi
 			menu
 			;;
-		0 ) exit 0 ;;
+		0 ) echo -e "\n  Thanks for using wireGuard-toggle.sh"; exit 0 ;;
 		*) echo -e $red"  Wrong option."$clear; WrongCommand;;
 	esac
 }
