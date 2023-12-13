@@ -74,17 +74,18 @@ toggle_tunnel(){
 	if [[ $tstate -eq 0 ]]; then
 		toggle_confirm $1 1
 		echo -e "\n  Tunnel $1 will be ${green}enabled${clear} after Restart"
-		echo -e "  ${yellow}To execute your command Restart WireGuard or the router!${clear}"
+		echo -e "  ${yellow}To execute, Restart WireGuard or router!${clear}"
 		any_key
 		return 0
 	elif [[ $tstate -eq 1 ]]; then
 		toggle_confirm $1 0
 		echo -e "\n  Tunnel $1 will be ${red}disabled${clear} after Restart"
-		echo -e "  ${yellow}To execute your command Restart WireGuard or the router!${clear}"
+		echo -e "  ${yellow}To execute, Restart WireGuard or router!${clear}"
 		any_key
 		return 0
 	else
-		echo -e $red"  Tunnel $1 does not exist"$clear Please choose an existing tunnel; return 1
+		echo -e $red"  Tunnel $1 does not exist"$clear Please choose an existing tunnel 
+		return 1
 	fi
 	return 0
 }
@@ -113,7 +114,7 @@ show_tunnels(){
 
 submenu_showstatus(){
 	show_tunnels
-	echo -ne "\n  $(ColorYellow 'Please enter the tunnel you want to see, 0=Exit': ) "
+	echo -ne "\n  $(ColorYellow 'Please enter tunnel you want to see, 0=Exit': ) "
 	[[ "$nrtun" -lt 10 ]] && read -n 1 sn || read sn # use this with more than 10 tunnels
 	if  [[ $sn -eq 0 ]]; then
 		echo -e "  Returning to main menu"
@@ -126,7 +127,7 @@ submenu_showstatus(){
 		any_key
 		return 0
 	else
-		echo -e $red"  \nWrong option."$clear; submenu_showstatus
+		echo -e $red"\n  Wrong option, choose valid tunnel!"$clear; submenu_showstatus
 	fi
 }
 
@@ -142,7 +143,7 @@ submenu_toggle () {
 		toggle_tunnel $tn
 		return 0
 	else
-		echo -e $red"  \nWrong option."$clear; return 1
+		echo -e $red"\n  Wrong option, choose valid tunnel!"$clear; submenu_toggle
 	fi
 }
 
@@ -167,12 +168,12 @@ menu(){
 			menu
 			;;
 		2 )
-			echo -e "  You chose main item 2, Toggle tunnel\n"
+			echo -e "  You chose item 2, Toggle tunnel\n"
 			submenu_toggle
 			menu
 			;;
 		3 )
-			echo -e "  You chose main item 3, Show Status\n"
+			echo -e "  You chose item 3, Show Status\n"
 			submenu_showstatus
 			menu
 			;;
@@ -183,7 +184,7 @@ menu(){
 			menu
 			;;
 		7 )
-			echo -e -n "\n  Save changes and restart WireGuard y/N ?: "
+			echo -e -n "\n  Save changes and restart WireGuard y/N?: "
 			read -n 1 y_or_n
 			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
 				echo -e "\n  Saving and Restarting"
@@ -196,7 +197,7 @@ menu(){
 			menu
 			;;
 		8 )
-			echo -e -n "\n  Save changes, restart WireGuard and Firewall y/N ?: "
+			echo -e -n "\n  Save changes restart WireGuard and Firewall y/N?: "
 			read -n 1 y_or_n
 			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
 				echo -e "\n  Saving and Restarting Firewall"
@@ -209,7 +210,7 @@ menu(){
 			menu
 			;;
 		9 )
-			echo -e -n "\n  Are you sure you want to Reboot y/N ?: "
+			echo -e -n "\n  Are you sure you want to Reboot y/N?: "
 			read -n 1 y_or_n
 			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
 				echo -e "\n  Rebooting, Bye Bye"
