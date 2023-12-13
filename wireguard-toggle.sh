@@ -3,7 +3,7 @@
 
 #	name: wireguard-toggle.sh
 #	version: 0.92 beta, 14-dec-2023, by egc
-#	purpose: 
+#	purpose: Toggle WireGuard tunnels on/off, show status and log
 #	script type: standalone
 #	installation:
 #	 1. enable jffs2 (administration->jffs2) or use USB stick for storage with /jffs
@@ -14,16 +14,16 @@
 #		wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
 #	 3. make this script executable with chmod +x /jffs/wireguard-toggle.sh
 #	 4. run from command line with/jfss/wireguard-toggle.sh
-#    If you do not have permanent storage you can reinstall the script automatically on reboot by adding 
-#    the following to Administration > Commands and Save as Startup:
-#      sleep 10
-#      cd /tmp
-#      curl -LJO https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
-#      chmod +x wireguard-toggle.sh
-#     usage:
+#	 If you do not have permanet storage you can reinstall the script automatically on reboot by adding 
+#	 the following to Administration > Commands and Save as Startup:
+#		sleep 10
+#		cd /tmp
+#		curl -LJO https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
+#		chmod +x wireguard-toggle.sh
+#	usage:
 #	 toggle tunnels to enable/disable the tunnel and restart wireguard
 #	limitations:
-#    - requires dd-wrt build 52241 or later
+#	 - requires dd-wrt build 52241 or later
 
 [ ${DEBUG+x} ] && set -x
 # Color  Variables
