@@ -2,18 +2,24 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 #	name: wireguard-toggle.sh
-#	version: 0.91 beta, 13-dec-2023, by egc
+#	version: 0.92 beta, 14-dec-2023, by egc
 #	purpose: 
 #	script type: standalone
 #	installation:
 #	 1. enable jffs2 (administration->jffs2) or use USB stick for storage with /jffs
-#	 2. change to direcdtory in which you want the script to download e.g.: cd /jffs 
+#	 2. change to directory in which you want the script to download e.g.: cd /jffs 
 #	 3. download script from github with:
 #		curl -LJO https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
 #		or
 #		wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
 #	 3. make this script executable with chmod +x /jffs/wireguard-toggle.sh
 #	 4. run from command line with/jfss/wireguard-toggle.sh
+#    If you do not have permanet storage you can reinstall the script automatically on reboot by adding 
+#    the following to Administration > Commands and Save as Startup:
+#      sleep 10
+#      cd /tmp
+#      curl -LJO https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-toggle.sh
+#      chmod +x wireguard-toggle.sh
 #	usage:
 #	 toggle tunnels to enable/disable the tunnel and restart wireguard
 #	limitations:
