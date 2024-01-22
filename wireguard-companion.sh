@@ -26,6 +26,7 @@
 #	 - requires dd-wrt build 52241 or later
 
 [ ${DEBUG+x} ] && set -x
+pending=0
 # Color  Variables
 ##
 green='\e[92m'
@@ -67,6 +68,7 @@ toggle_confirm(){
 	else
 		#echo -e " Toggle tunnel $1"
 		nvram set oet${1}_en=$2
+		pending=1
 		return 0
 	fi
 }
@@ -162,6 +164,7 @@ submenu_toggle(){
 
 menu(){
 	clear
+	[[ $pending -eq 1 ]] && echo -e "\n  ${yellow}Pending changes, Restart WireGuard or router!${clear}"
 	echo -e "\n        number state fail_state label"
 	show_tunnels
 	echo -e -n "
@@ -206,6 +209,7 @@ menu(){
 			echo -e "\n  Saving and Restarting"
 			nvram commit
 			/usr/bin/wireguard-restart.sh
+			pending=0
 			any_key
 			menu
 			;;
@@ -213,6 +217,7 @@ menu(){
 			echo -e "\n  Saving and Restarting Firewall"
 			nvram commit
 			restart firewall
+			pending=0
 			any_key
 			menu
 			;;
