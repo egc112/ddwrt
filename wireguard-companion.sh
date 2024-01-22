@@ -2,7 +2,7 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 #	name: wireguard-companion.sh
-#	version: 0.92 beta, 14-dec-2023, by egc
+#	version: 0.93 beta, 14-jan-2024, by egc
 #	purpose: Toggle WireGuard tunnels on/off, show status and log
 #	script type: standalone
 #	installation:
@@ -12,7 +12,7 @@
 #		curl -LJO https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-companion.sh
 #		or
 #		wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/egc112/ddwrt/main/wireguard-companion.sh
-#	 3. make this script executable with chmod +x /jffs/wireguard-companion.sh
+#	 3. make this script executable with: chmod +x /jffs/wireguard-companion.sh
 #	 4. run from command line with /jfss/wireguard-companion.sh, most SSH clients will let you run a command on connection
 #	 If you do not have persistent storage you can reinstall the script automatically on reboot by adding 
 #	 the following to Administration > Commands and Save as Startup:
@@ -58,15 +58,16 @@ WrongCommand () {
 
 toggle_confirm(){
 	[[ $2 -eq 0 ]] && state="${red}disable${clear}" || state="${green}enable${clear}"
-	echo -e -n "  Do you want to ${state} tunnel ${yellow}$1${clear}: y/N ? : "
+	echo -e -n "\n  Do you want to ${state} tunnel ${yellow}$1${clear}: Y/n ? : "
 	read -n 1 y_or_n
-	if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
+	if [[ "$y_or_n" = "N" || "$y_or_n" = "n" ]]; then
+		echo -e "\n  ${red}Abort${clear}"
+		any_key
+		menu
+	else
 		#echo -e " Toggle tunnel $1"
 		nvram set oet${1}_en=$2
 		return 0
-	else
-		echo -e "Abort"
-		menu
 	fi
 }
 
@@ -139,25 +140,19 @@ submenu_showstatus(){
 
 submenu_toggle(){
 	show_tunnels
-	echo -ne "\n  ${yellow}Please enter tunnel to toggle (1 - $nrtun, 0=Exit):${clear} "
+	[[ "$1" -eq 1 ]] && TOGGLE="enable, others are disabled" || TOGGLE=toggle
+	echo -ne "\n  ${yellow}Please enter tunnel to $TOGGLE (1 - $nrtun, 0=Exit):${clear} "
 	[[ "$nrtun" -lt 10 ]] && read -n 1 tn || read tn # use this with more than 10 tunnels
 	if  [[ $tn -eq 0 ]]; then
 		echo -e "\n  Returning to main menu"
 		return 0
 	elif [[ $tn -gt 0 && $tn -le $nrtun ]] ; then
-		echo -e "\n  You chose tunnel number $tn"
 		toggle_tunnel $tn
 		if [[ "$1" -eq 1 ]]; then
-			echo -e -n "\n  Disable all other tunnels y/N?: "
-			read -n 1 y_or_n
-			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
-				for x in $(seq 1 $nrtun); do
-					[[ $x -eq $tn ]] && continue
-					nvram set oet${x}_en=0
-					echo -e "  ${yellow}To execute, Restart WireGuard or router!${clear}"
-					any_key
-				done
-			fi
+			for x in $(seq 1 $nrtun); do
+				[[ $x -eq $tn ]] && continue
+				nvram set oet${x}_en=0
+			done
 		fi
 		return 0
 	else
@@ -208,28 +203,16 @@ menu(){
 			menu
 			;;
 		7 )
-			echo -e -n "\n  Save changes and restart WireGuard y/N?: "
-			read -n 1 y_or_n
-			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
-				echo -e "\n  Saving and Restarting"
-				nvram commit
-				/usr/bin/wireguard-restart.sh
-			else
-				echo -e "  ABORT"
-			fi
+			echo -e "\n  Saving and Restarting"
+			nvram commit
+			/usr/bin/wireguard-restart.sh
 			any_key
 			menu
 			;;
 		8 )
-			echo -e -n "\n  Save changes restart WireGuard and Firewall y/N?: "
-			read -n 1 y_or_n
-			if [[ "$y_or_n" = "Y" || "$y_or_n" = "y" ]]; then
-				echo -e "\n  Saving and Restarting Firewall"
-				nvram commit
-				restart firewall
-			else
-				echo -e "  ABORT"
-			fi
+			echo -e "\n  Saving and Restarting Firewall"
+			nvram commit
+			restart firewall
 			any_key
 			menu
 			;;
