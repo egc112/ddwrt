@@ -142,8 +142,8 @@ submenu_showstatus(){
 
 submenu_toggle(){
 	show_tunnels
-	[[ "$1" -eq 1 ]] && TOGGLE="enable, others are disabled" || TOGGLE=toggle
-	echo -ne "\n  ${yellow}Please enter tunnel to $TOGGLE (1 - $nrtun, 0=Exit):${clear} "
+	[[ "$1" -eq 1 ]] && TOGGLE="enable, all \n  others are disabled" || TOGGLE=toggle
+	echo -ne "\n  ${yellow}Enter tunnel to $TOGGLE (1 - $nrtun, 0=Exit):${clear} "
 	[[ "$nrtun" -lt 10 ]] && read -n 1 tn || read tn # use this with more than 10 tunnels
 	if  [[ $tn -eq 0 ]]; then
 		echo -e "\n  Returning to main menu"
@@ -185,17 +185,17 @@ menu(){
 			menu
 			;;
 		2 )
-			echo -e "  You chose Toggle tunnel\n"
+			echo -e "  Toggle tunnel on/off\n"
 			submenu_toggle 0
 			menu
 			;;
 		3 )
-			echo -e "  You chose Enable tunnel, Disable all others\n"
+			echo -e "  Enable tunnel, Disable others\n"
 			submenu_toggle 1
 			menu
 			;;
 		4 )
-			echo -e "  You chose item 4, Show Status\n"
+			echo -e "  Show Status\n"
 			submenu_showstatus
 			menu
 			;;
