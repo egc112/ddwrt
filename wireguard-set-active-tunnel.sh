@@ -51,22 +51,26 @@ usage() {
     echo "  wireguard-set-active-tunnel.sh X"
     echo "  X is a single parameter with the number of the tunnel you want to enable"
     echo "  All other tunnels will be disabled"
-    echo "  Accepted values are 1-$num_tuns"
+	echo "  0 will disable all tunnels (no VPN)"
+    echo "  Accepted values are 0-$num_tuns"
     exit 1
 }
 
 check_params() {
     local num_tuns="$1"
-    # Check if exactly one argument is passed
+    # Check if one argument was passed to main program
     if [ "$#" -ne 2 ] || [ -z "$2" ]; then
         echo "Error: Exactly one argument is required."
         usage "$num_tuns"
     fi
 
-    # Construct a regex pattern with the range of valid params
-    regex="^[1-${num_tuns}]$"
+	# A tunnel identifier of zero (disable VPN) is a valid param
+	if [[ "$2" -eq 0 ]]; then
+        return
+    fi
 
-    # Check if the argument is a number between 1 and num_tuns
+    # Else check if the tunnel param is within the range of available tunnels
+    regex="^[1-${num_tuns}]$"
     if ! echo "$2" | grep -qE "$regex"; then
         echo "Error: Your router has $num_tuns tunnels"
         echo "Your input parameter must be a number between 1 and $num_tuns."
@@ -78,7 +82,12 @@ set_active_tunnel() {
     local to_activate="$1"
     local num_tuns="$2"
 
-    echo -e "\nEnabling tunnel $to_activate, and disabling all others..."
+	if [[ "$to_activate" -eq 0 ]]; then
+    	echo -e "\nDisabling all VPN tunnels..."
+    else
+    	echo -e "\nEnabling tunnel $to_activate, and disabling all others..."
+	fi
+
     for iter in $(seq 1 $num_tuns); do
         if [ "$iter" -eq "$to_activate" ]; then
             echo "nvram set "oet${iter}_en=1""
