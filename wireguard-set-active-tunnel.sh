@@ -82,10 +82,11 @@ set_active_tunnel() {
     local to_activate="$1"
     local num_tuns="$2"
 
+	echo -e "\nModifying VPN Config starting: $(date)"
 	if [[ "$to_activate" -eq 0 ]]; then
-    	echo -e "\nDisabling all VPN tunnels..."
+    	echo "Disabling all VPN tunnels..."
     else
-    	echo -e "\nEnabling tunnel $to_activate, and disabling all others..."
+    	echo "Enabling tunnel $to_activate, and disabling all others..."
 	fi
 
     for iter in $(seq 1 $num_tuns); do
@@ -99,10 +100,10 @@ set_active_tunnel() {
     done
 }
 
-restart_wireguard() {
-    echo "Saving and Restarting..."
+restart_firewall() {
+    echo "Saving and restarting firewall..."
     nvram commit
-    /usr/bin/wireguard-restart.sh
+	restart firewall
 }
 
 # This script was written to be run from a shortcut
@@ -115,5 +116,5 @@ restart_wireguard() {
     fi
     check_params "$nrtun" "$1" || usage $nrtun
     set_active_tunnel "$1" "$nrtun"
-    restart_wireguard
+    restart_firewall
 } 2>&1 | tee -a /var/log/wireguard-set-active-tunnel.log
