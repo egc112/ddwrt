@@ -1,6 +1,6 @@
 ### Simple Adblock for DDWRT 
 
-Use domainlists for DNSMasq > 2.86 with format `local=/blockeddomain/` 
+Use domainlists for DNSMasq > 2.86 with format `local=/blockeddomain/`  
 Popular source of domain lists:  
 - https://github.com/hagezi/dns-blocklists/tree/main/dnsmasq
 	You can get the URL of the list by clicking on the `RAW` button in the upper right corner, remove `https://`  
