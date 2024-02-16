@@ -151,7 +151,6 @@ until pidof dnsmasq &>/dev/null; do sleep 10; done
 dnsmasq_check $BLACKLIST
 
 # force dnsmasq to recognize updated blacklist
-#killall -HUP dnsmasq
 stopservice dnsmasq && sleep 1 && startservice dnsmasq
 
 # report the results
