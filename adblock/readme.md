@@ -36,7 +36,8 @@ script type: startup (autostart)
         0 4 * * * root /jffs/ddwrt-adblock.sh  
    9. reboot  
    10. Debug by removing the # on the second line of the script, view with: `grep -i adblock /var/log/messages`
-
+  
+  
 References  
 https://forum.dd-wrt.com/phpBB2/viewtopic.php?t=335928  
 https://forum.openwrt.org/t/adblock-lean-set-up-adblock-using-dnsmasq-blocklist/157076/537  
