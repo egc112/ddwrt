@@ -13,6 +13,7 @@
 # 5. add to Administration  > Commands: 
 #      /jffs/ddwrt-adblock.sh & 
 #      if placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"
+#      Depending on the speed of your router you might need to precede the command with: sleep 10
 # 6. add the following to the "additional dnsmasq options" field on the
 #     services page:
 #     conf-dir=/tmp/blocklists
