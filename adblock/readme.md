@@ -18,7 +18,7 @@ script type: startup (autostart)
  installation:  
    1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory  
    2. enable syslogd (services->services->system log)  
-   3. copy ddwrt-adblock.sh from egc to /jffs  
+   3. copy ddwrt-adblock.sh from [egc](https://github.com/egc112/ddwrt/tree/main/adblock) to /jffs  
    4. make executable: chmod +x /jffs/ddwrt-adblock.sh  
    5. add to Administration  > Commands:   
         /jffs/ddwrt-adblock.sh &   
@@ -30,6 +30,6 @@ script type: startup (autostart)
         vi /jffs/ddwrt-adblock.sh   
 		or edit with WinSCP  
    8. (optional) enable cron (administration->management) and add the  
-          following job:  
+          following job (runs daily at 4 a.m.):  
         0 4 * * * root /jffs/ddwrt-adblock.sh  
    9. reboot  
