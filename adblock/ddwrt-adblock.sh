@@ -1,28 +1,28 @@
 #!/bin/sh
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
-#          name: ddwrt-adblock.sh
-#       version: 0.9, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
-#       purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/
-#   script type: startup (autostart)
-#  installation:
-#    1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
-#    2. enable syslogd (services->services->system log)
-#    3. copy ddwrt-adblock.sh from egc to /jffs
-#    4. make executable: chmod +x /jffs/ddwrt-adblock.sh
-#    5. add to Administration  > Commands: 
-#         /jffs/ddwrt-adblock.sh & 
-#       if placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"
-#    6. add the following to the "additional dnsmasq options" field on the
-#       services page:
-#         conf-dir=/tmp/blocklists
-#    7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
-#         vi /jffs/ddwrt-adblock.sh 
-#		or edit with WinSCP
-#    8. (optional) enable cron (administration->management) and add the
-#           following job:
-#         0 4 * * * root /jffs/ddwrt-adblock.sh
-#    9. reboot
+# name: ddwrt-adblock.sh
+# version: 0.9, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
+# purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/
+# script type: startup (autostart)
+# installation:
+# 1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
+# 2. enable syslogd (services->services->system log)
+# 3. copy ddwrt-adblock.sh from https://github.com/egc112/ddwrt/tree/main/adblock to /jffs
+# 4. make executable: chmod +x /jffs/ddwrt-adblock.sh
+# 5. add to Administration  > Commands: 
+#      /jffs/ddwrt-adblock.sh & 
+#      if placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"
+# 6. add the following to the "additional dnsmasq options" field on the
+#     services page:
+#     conf-dir=/tmp/blocklists
+# 7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
+#     vi /jffs/ddwrt-adblock.sh 
+#     or edit with WinSCP
+# 8. (optional) enable cron (administration->management) and add the
+#     following job (runs daily at 4 a.m.):
+#     0 4 * * * root /jffs/ddwrt-adblock.sh
+# 9. reboot
 (
 # ------------------------------ BEGIN OPTIONS ------------------------------- #
 
@@ -35,6 +35,7 @@
 URL_LIST='
 raw.githubusercontent.com/hagezi/dns-blocklists/main/dnsmasq/pro.txt
 #raw.githubusercontent.com/hagezi/dns-blocklists/main/dnsmasq/doh.txt
+#small.oisd.nl/dnsmasq2
 '
 
 # exceptions: domains (and their sub-domains) NOT to be blacklisted
