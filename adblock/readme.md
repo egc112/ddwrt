@@ -26,7 +26,7 @@ script type: startup (autostart)
       Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30 (or sleep 60)    
    6. add the following to the "additional dnsmasq options" field on the  
       services page:  
-       `conf-dir=/tmp/blocklists`  
+       `conf-dir=/tmp,*.blck`  
        `/tmp/blocklists` is the directory where the blocklists are placed and can be checked  
    7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
         vi /jffs/ddwrt-adblock.sh   
