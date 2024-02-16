@@ -144,14 +144,15 @@ if [ "$(echo $MYWHITELIST)" ]; then
             $BLACKLIST
 fi
 
-# check if DNSMasq will run
-dnsmasq_check $BLACKLIST
-
 # wait for dnsmasq availability
 until pidof dnsmasq &>/dev/null; do sleep 10; done
 
+# check if DNSMasq will run
+dnsmasq_check $BLACKLIST
+
 # force dnsmasq to recognize updated blacklist
-killall -HUP dnsmasq
+#killall -HUP dnsmasq
+stopservice dnsmasq && sleep 1 && startservice dnsmasq
 
 # report the results
 echo "adblock: Running $(basename $0) with total blacklisted domains: $(wc -l < $BLACKLIST)"
