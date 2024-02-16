@@ -2,21 +2,21 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 # name: ddwrt-adblock.sh
-# version: 0.9, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
+# version: 0.91, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 # purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/
 # script type: startup (autostart)
 # installation:
 # 1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
 # 2. enable syslogd (services->services->system log)
-# 3. copy ddwrt-adblock.sh from egc to /jffs
+# 3. copy ddwrt-adblock.sh from https://github.com/egc112/ddwrt/tree/main/adblock to /jffs
 # 4. make executable: chmod +x /jffs/ddwrt-adblock.sh
 # 5. add to Administration  > Commands: 
 #      /jffs/ddwrt-adblock.sh & 
 #      if placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"
-#      Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 20 (or sleep 60)
+#      Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30 (or sleep 60)
 # 6. add the following to the "additional dnsmasq options" field on the
 #     services page:
-#     conf-dir=/tmp/blocklists
+#     conf-dir=/tmp,*.blck
 #     /tmp/blocklists is the directory where the blocklists are placed and can be checked
 # 7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
 #     vi /jffs/ddwrt-adblock.sh 
@@ -28,7 +28,6 @@
 #10. (optional) Prevent LAN clients to use their own DNS by ticking/enabling Forced DNS Redirection and
 #    Forced DNS Redirection DoT on Basic Setup page
 #11. Debug by removing the # on the second line of this script, view with: grep -i adblock /var/log/messages
-
 (
 # ------------------------------ BEGIN OPTIONS ------------------------------- #
 
@@ -77,8 +76,6 @@ done
 
 rogue_check() {
 	# Get line number and match of any rogue elements
-	#rogue_element=$(sed -nE '\~(^(local|server|address)=/)[[:alnum:]*][[:alnum:]*_.-]+(/$)|^#|^\s*$~d;{p;=;q}' $1 | { read match; read line; [[ ! -z "${match}" ]] && echo "${line}: ${match}"; })
-	#rogue_elements=$(sed -nE '\~(^(local|server|address)=/)[[:alnum:]*][[:alnum:]*_.-]+(/$)|^#|^\s*$~d;{p;=;}' $1 )
 	sed -nE '\~(^(local|server|address)=/)[[:alnum:]*][[:alnum:]*_.-]+(/$)|^#|^\s*$~d;{p;=;}' $1 | 
 	while read line1; do
 		read line2
@@ -87,23 +84,11 @@ rogue_check() {
 		echo "adblock: Removing offending line: ${line2}: ${line1}"
 		sed -i /"${line1}"/d $1
 	done
-#sed -nE '\~(^(local|server|address)=/)[[:alnum:]*][[:alnum:]*.-]+(/$)|^#|^\s*$~d;{p;=;}' /tmp/blacklisted_domains | while read line1; do read line2; echo "$(printf "Rogue element: %s : %s\n" "$line2" "$line1 identified in new blocklist.")";done
 }
 
 dnsmasq_check(){
 	dnsmasq --test --conf-file="$1" 2>&1
-	#$(dnsmasq --test --conf-file="$1" 2>&1)
 	[[ ${?} -eq 0 ]] && echo "adblock: DNSMasq check OK on $1" || { echo "adblock: ERROR: DNSMasq check ERROR on $1, cannot run $(basename $0)"; release_lock; exit 1; }
-	
-	#[[ $(dnsmasq --test --conf-file="$1" 2>&1) -eq 0 ]] && echo "DNSMasq check OK on $1" || echo "DNSMasq check ERROR on $1"
-	# dnsmasq_check_result=${?}
-	# if [[ ${dnsmasq_test_result} == 0 ]] 
-	# then
-		# log_msg "The dnsmasq --test on the processed blocklist passed."
-	# else
-		# log_msg "The dnsmasq --test on the processed blocklist failed."
-		# return 1
-	# fi
 }
 
 # required for serialization when reentry is possible
@@ -117,8 +102,7 @@ which curl &>/dev/null && \
     GET_URL="wget -T $MAX_WAIT -qO -"
 
 # domains to be blacklisted
-mkdir /tmp/blocklists >/dev/null 2>&1
-BLACKLIST='/tmp/blocklists/blacklisted_domains'; > $BLACKLIST
+BLACKLIST='/tmp/blacklisted_domains.blck'; > $BLACKLIST
 
 # workfile
 RAW_BLACKLIST="/tmp/tmp.$$.raw_blacklist"
@@ -135,13 +119,9 @@ trap 'release_lock; exit 1' SIGHUP SIGINT SIGTERM
 for url in $URL_LIST; do
     # skip comments and blank lines
     echo $url | grep -Eq '^[[:space:]]*(#|$)' && continue
-
     # retrieve url as raw blacklist
-    $GET_URL $url > $RAW_BLACKLIST || {{ echo "adblock: ERROR: $url"; continue; }
-
+    $GET_URL $url > $RAW_BLACKLIST || { echo "adblock: ERROR: $url"; continue; }
 	# Clean
-	# '$a\' adds newline at end of file part
-	#sed 's/\s*#.*$//; s/^[ \t]*//; s/[ \t]*$//; /^\s*$/d; s/\(^address\|^server\)/local/; $a\' $RAW_BLACKLIST >> $BLACKLIST
 	sed 's/\s*#.*$//; s/^[ \t]*//; s/[ \t]*$//; /^\s*$/d; s/\(^address\|^server\)/local/; \' $RAW_BLACKLIST >> $BLACKLIST
 done
 
@@ -152,7 +132,6 @@ rm -f $RAW_BLACKLIST
 add_myblacklist
 
 # sort and remove duplicates
-#sort -uo $BLACKLIST $BLACKLIST
 sort $BLACKLIST | uniq -u >/dev/null 2>&1
 
 # check for rogue elements and malformed domain names
