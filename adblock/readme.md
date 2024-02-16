@@ -19,15 +19,15 @@ script type: startup (autostart)
    1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory  
    2. enable syslogd (services->services->system log)  
    3. copy ddwrt-adblock.sh from [egc](https://github.com/egc112/ddwrt/tree/main/adblock) to /jffs  
-   4. make executable: chmod +x /jffs/ddwrt-adblock.sh  
+   4. make executable: `chmod +x /jffs/ddwrt-adblock.sh`  
    5. add to Administration  > Commands:   
        `/jffs/ddwrt-adblock.sh &`  
       if placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"  
-      Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30    
+      Depending on the speed of your router or use of VPN, you might need to precede the command with: `sleep 30`    
    6. add the following to the "additional dnsmasq options" field on the  
       services page:  
        `conf-dir=/tmp,*.blck`  
-       `/tmp/blocklists` is the directory where the blocklists are placed and can be checked  
+       `/tmp/` is the directory where the blocklists: `*.blck` are placed and can be checked  
    7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
         vi /jffs/ddwrt-adblock.sh   
 	or edit with WinSCP  
