@@ -17,7 +17,7 @@
 # 6. add the following to the "additional dnsmasq options" field on the
 #     services page:
 #     conf-dir=/tmp,*.blck
-#     /tmp/blocklists is the directory where the blocklists are placed and can be checked
+#     /tmp/ is the directory where the blocklists: *.blck are placed and can be checked
 # 7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
 #     vi /jffs/ddwrt-adblock.sh 
 #     or edit with WinSCP
