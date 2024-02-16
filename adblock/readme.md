@@ -24,14 +24,16 @@ script type: startup (autostart)
        `/jffs/ddwrt-adblock.sh &`  
       if placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"  
       Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 20    
-   7. add the following to the "additional dnsmasq options" field on the  
+   6. add the following to the "additional dnsmasq options" field on the  
       services page:  
        `conf-dir=/tmp/blocklists`  
        `/tmp/blocklists` is the directory where the blocklists are placed and can be checked  
-   9. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
+   7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
         vi /jffs/ddwrt-adblock.sh   
 	or edit with WinSCP  
-   10. (optional) enable cron (administration->management) and add the  
+   8. (optional) enable cron (administration->management) and add the  
         following job (runs daily at 4 a.m.):  
         0 4 * * * root /jffs/ddwrt-adblock.sh  
-   11. reboot  
+   9. reboot  
+   10. Debug by removing the # on the second line of the script, view with: `grep -i adblock /var/log/messages`  
+
