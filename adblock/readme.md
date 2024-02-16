@@ -23,7 +23,7 @@ script type: startup (autostart)
    5. add to Administration  > Commands:   
        `/jffs/ddwrt-adblock.sh &`  
       if placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"  
-      Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30 (or sleep 60)    
+      Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30    
    6. add the following to the "additional dnsmasq options" field on the  
       services page:  
        `conf-dir=/tmp,*.blck`  
