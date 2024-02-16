@@ -35,9 +35,9 @@ script type: startup (autostart)
         following job (runs daily at 4 a.m.):  
         0 4 * * * root /jffs/ddwrt-adblock.sh  
    9. reboot  
-   10. Debug by removing the # on the second line of the script, view with: `grep -i adblock /var/log/messages`
-   11. Prevent LAN clients to use their own DNS by ticking/enabling `Forced DNS Redirection` and  
+   10. Prevent LAN clients to use their own DNS by ticking/enabling `Forced DNS Redirection` and  
        `Forced DNS Redirection DoT` on Basic Setup page  
+   11. Debug by removing the # on the second line of the script, view with: `grep -i adblock /var/log/messages`
   
   
 References  
