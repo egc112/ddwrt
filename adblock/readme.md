@@ -8,8 +8,8 @@ Popular source of domain lists:
 - https://oisd.nl/setup/dnsmasq
   	Use the dnsmasq*2* file, right click to get the URL and remove `https://`
 
-
-
+You can add your own domains you want to [whitelist](https://en.wikipedia.org/wiki/Whitelist) and  
+add your own domains you want to [blacklist](https://en.wikipedia.org/wiki/Blacklisting)
 
 name: ddwrt-adblock.sh  
 version: 0.9, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock  
