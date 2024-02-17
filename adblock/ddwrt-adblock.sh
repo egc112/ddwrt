@@ -4,7 +4,7 @@
 # name: ddwrt-adblock.sh
 # version: 0.91, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 # purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/
-# script type: startup (autostart)
+# script type: shell script
 # installation:
 # 1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
 # 2. enable syslogd (services->services->system log)
