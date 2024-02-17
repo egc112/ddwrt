@@ -45,3 +45,4 @@ https://forum.dd-wrt.com/phpBB2/viewtopic.php?t=335928
 https://forum.openwrt.org/t/adblock-lean-set-up-adblock-using-dnsmasq-blocklist/157076/537  
 https://forum.dd-wrt.com/phpBB2/viewtopic.php?p=1255771&sid=cfa6a506dccdc75b37c77eab937eb626  
 https://pastebin.com/aySi7RhY  
+https://github.com/m-parashar/adblock  
