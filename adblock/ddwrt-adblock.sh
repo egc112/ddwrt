@@ -9,6 +9,8 @@
 # 1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
 # 2. enable syslogd (services->services->system log)
 # 3. copy ddwrt-adblock.sh from https://github.com/egc112/ddwrt/tree/main/adblock to /jffs
+#    either with: curl -o /jffs/ddwrt-adblock.sh https://raw.githubusercontent.com/egc112/ddwrt/main/adblock/ddwrt-adblock.sh
+#    or by clicking the download icon in the upper right corner of the script
 # 4. make executable: chmod +x /jffs/ddwrt-adblock.sh
 # 5. add to Administration  > Commands: 
 #      /jffs/ddwrt-adblock.sh & 
