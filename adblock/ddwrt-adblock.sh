@@ -39,7 +39,6 @@
 
 URL_LIST='
 raw.githubusercontent.com/hagezi/dns-blocklists/main/dnsmasq/pro.txt
-#raw.githubusercontent.com/hagezi/dns-blocklists/main/dnsmasq/doh.txt
 #small.oisd.nl/dnsmasq2
 '
 
