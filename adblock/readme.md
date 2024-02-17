@@ -1,7 +1,8 @@
 ### Simple Adblock for DDWRT 
 
-Use domainlists for DNSMasq > 2.86 with format `local=/blockeddomain/`  
-Popular source of domain lists:  
+This scripts uses domainlists for DNSMasq > 2.86 with format `local=/blockeddomain/`  
+The script has already some default sources for blocklists incorporated which should work for normal operation but  
+if you want more than see these popular sources of domain lists:  
 - https://github.com/hagezi/dns-blocklists/tree/main/dnsmasq
 	You can get the URL of the list by clicking on the `RAW` button in the upper right corner, remove `https://`  
 	and add the URL to the URL list in the script.
