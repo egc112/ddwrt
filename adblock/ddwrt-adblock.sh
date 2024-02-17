@@ -51,8 +51,9 @@ raw.githubusercontent.com/hagezi/dns-blocklists/main/dnsmasq/pro.txt
 #       removed
 MYWHITELIST='
 localhost
+googleadservices.com
+services.googleapis.com
 dd-wrt.com
-example-allow-this-domain.com
 '
 
 # websites/domains you manually want to blacklist
@@ -76,7 +77,7 @@ done
 
 rogue_check() {
 	# Get line number and match of any rogue elements
-	sed -nE '\~(^(local|server|address)=/)[[:alnum:]*][[:alnum:]*_.-]+(/$)|^#|^\s*$~d;{p;=;}' $1 | 
+	LC_ALL=C sed -nE '\~(^(local|server|address)=/)[[:alnum:]*][[:alnum:]*_.-]+(/$)|^#|^\s*$~d;{p;=;}' $1 | 
 	while read line1; do
 		read line2
 		echo "adblock: Rogue element: line ${line2}: ${line1} identified in new blocklist"
