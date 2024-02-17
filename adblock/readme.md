@@ -13,7 +13,7 @@ You can add your own domains you want to [whitelist](https://en.wikipedia.org/wi
 add your own domains you want to [blacklist](https://en.wikipedia.org/wiki/Blacklisting)
 
 name: ddwrt-adblock.sh  
-version: 0.9, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock  
+version: 0.91, 15-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock  
 purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/  
 script type: startup (autostart)  
  installation:  
