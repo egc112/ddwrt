@@ -3,7 +3,7 @@
 This scripts uses domainlists for blocking domains in SmartDNS  
 The script has already some default sources for blocklists incorporated which should work for normal operation but  
 if you want more than see these popular sources of domain lists:  
-- `https://github.com/hagezi/dns-blocklists/tree/main/dnsmasq`  
+- `https://github.com/hagezi/dns-blocklists/tree/main/domains`  
 	You can get the URL of the list by clicking on the `RAW` button in the upper right corner,  
 	remove `https://` and add the URL to the URL list in the script.  
 - `https://oisd.nl/setup `  
@@ -12,8 +12,7 @@ if you want more than see these popular sources of domain lists:
 
 You can add your own domains you want to [whitelist](https://en.wikipedia.org/wiki/Whitelist) and  
 add your own domains you want to [blacklist](https://en.wikipedia.org/wiki/Blacklisting)
-
-
+  
 name: ddwrt-adblock-s.sh
 version: 0.1, 18-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 purpose: blacklist specific domains in smartdns using a list of domains
