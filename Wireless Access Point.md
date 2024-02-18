@@ -49,25 +49,23 @@ firewall in order to get internet access.
 In the web-interface of the router (the WAP): Administration \> Commands save
 Firewall:
 
-\#Always necessary (alternatively set static route on main router and NAT
+Always necessary (alternatively set static route on main router and NAT
 traffic from VAP/Bridge out via WAN):
-
 ```
-*iptables -t nat -I POSTROUTING -o br0 -j SNAT --to \$(nvram get lan_ipaddr)*
+iptables -t nat -I POSTROUTING -o br0 -j SNAT --to \$(nvram get lan_ipaddr)
 ```
 
 If you want to only have the VAP/bridge to have internet access and not access
 to the rest of the network
 
-\#Replace with the appropriate interface of your VAP, e.g. wl0.1, wlan0.1 etc:
-
+Replace with the appropriate interface of your VAP, e.g. wl0.1, wlan0.1 etc:
 ```
 GUEST_IF="wlan1.1"
-\#Net Isolation does not work on a WAP so keep it disabled, add for isolating VAP from main network:  
+#Net Isolation does not work on a WAP so keep it disabled, add for isolating VAP from main network:  
 iptables -I FORWARD -i \$GUEST_IF -d \$(nvram get lan_ipaddr)/\$(nvram get lan_netmask) -m state --state NEW -j REJECT
 ```
 
-For isolating the WAP itself from the VAP/bridge:
+For isolating the WAP itself from the VAP/bridge:  
 ```
 iptables -I INPUT -i \$GUEST_IF -m state --state NEW -j REJECT
 iptables -I INPUT -i \$GUEST_IF -p udp --dport 67 -j ACCEPT
@@ -75,15 +73,14 @@ iptables -I INPUT -i \$GUEST_IF -p udp --dport 53 -j ACCEPT
 iptables -I INPUT -i \$GUEST_IF -p tcp --dport 53 -j ACCEPT
 ```
 
-To make it simple and isolate the VAP/bridge from all know private subnets which isolate it not only from the main network but also from other bridges:
+To make it simple and isolate the VAP/bridge from all know private subnets which isolate it not only from the main network but also from other bridges:  
 ```
-iptables -I FORWARD -i \$GUEST_IF -d 192.168.0.0/16 -m state --state NEW -j
-REJECT
+iptables -I FORWARD -i \$GUEST_IF -d 192.168.0.0/16 -m state --state NEW -j REJECT
 iptables -I FORWARD -i \$GUEST_IF -d 10.0.0.0/8 -m state --state NEW -j REJECT
 iptables -I FORWARD -i \$GUEST_IF -d 172.16.0.0/12 -m state --state NEW -j REJECT
 ```
 
-If you have a lot of VAP's bridges you can make a loop e.g.:
+If you have a lot of VAP's bridges you can make a loop e.g.:  
 ```
 for GUEST_IF in br1 br2 br3 do
     iptables -I FORWARD -i \$GUEST_IF -d \$(nvram get lan_ipaddr)/\$(nvram get lan_netmask) -m state --state NEW -j REJECT
