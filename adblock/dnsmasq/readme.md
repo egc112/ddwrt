@@ -29,17 +29,17 @@ installation:
      Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30
 6. add the following to the "additional dnsmasq options" field on the
     services page:
-    `conf-dir=/tmp,*.blck`
+    `conf-dir=/tmp,*.blck`  
     /tmp/ is the directory where the blocklists: *.blck are placed and can be checked
-7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
+7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
     `vi /jffs/ddwrt-adblock-d.sh`  
-    or edit with WinSCP
+    or edit with WinSCP  
 8. (optional) enable cron (administration->management) and add the
-    following job (runs daily at 4 a.m.):
+    following job (runs daily at 4 a.m.):  
     `0 4 * * * root /jffs/ddwrt-adblock-d.sh`
 9. reboot
-10. (optional) Prevent LAN clients to use their own DNS by ticking/enabling Forced DNS Redirection and
-   Forced DNS Redirection DoT on Basic Setup page
+10. (optional) Prevent LAN clients to use their own DNS by ticking/enabling Forced DNS Redirection and  
+    Forced DNS Redirection DoT on Basic Setup page
 11. Debug by removing the # on the second line of this script, view with: grep -i adblock /var/log/messages
 
   
