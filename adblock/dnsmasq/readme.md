@@ -19,9 +19,9 @@ script type: shell script
 installation:
 1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
 2. enable syslogd (services->services->system log)
-3. copy ddwrt-adblock-d.sh from [egc](https://github.com/egc112/ddwrt/tree/main/adblock/dnsmasq) to /jffs
-   either with: curl -o /jffs/ddwrt-adblock-d.sh https://raw.githubusercontent.com/egc112/ddwrt/main/adblock/dnsmasq/ddwrt-adblock-d.sh
-   or by clicking the download icon in the upper right corner of the script
+3. copy ddwrt-adblock-d.sh from [egc](https://github.com/egc112/ddwrt/tree/main/adblock/dnsmasq) to /jffs  
+   either with: curl -o /jffs/ddwrt-adblock-d.sh https://raw.githubusercontent.com/egc112/ddwrt/main/adblock/dnsmasq/ddwrt-adblock-d.sh  
+   or by clicking the download icon in the upper right corner of the script  
 4. make executable: chmod +x /jffs/ddwrt-adblock-d.sh
 5. add to Administration  > Commands: 
      /jffs/ddwrt-adblock-d.sh & 
