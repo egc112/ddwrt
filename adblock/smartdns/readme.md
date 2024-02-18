@@ -23,21 +23,21 @@ installation:
 3. Copy ddwrt-adblock-s.sh from https://github.com/egc112/ddwrt/tree/main/adblock/smartdns to /jffs
    either with: `curl -o /jffs/ddwrt-adblock-s.sh https://raw.githubusercontent.com/egc112/ddwrt/main/adblock/smartdns/ddwrt-adblock-s.sh`  
    or by clicking the download icon in the upper right corner of the script
-4. Make executable: chmod +x /jffs/ddwrt-adblock-s.sh
+4. Make executable: `chmod +x /jffs/ddwrt-adblock-s.sh`
 5. Add to Administration  > Commands:  
      `/jffs/ddwrt-adblock-s.sh &`  
      If placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"
      Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30
 6. Add the following to the "additional smartdns options" field on the services page:  
-     ```domain-set -name adblock -file /tmp/blacklisted_domains.sblck
-     #block IPv4 and IPv6:# ; block IPv4:#4; block IPv6:#6
-     address /domain-set:adblock/#```  
+     ```domain-set -name adblock -file /tmp/blacklisted_domains.sblck  
+     #block IPv4 and IPv6:# ; block IPv4:#4; block IPv6:#6  
+     address /domain-set:adblock/#  ```  
 7. Modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
     `vi /jffs/ddwrt-adblock-s.sh`  
     or edit with WinSCP  
 8. (optional) enable cron (administration->management) and add the  
     following job (runs daily at 4 a.m.):  
-    0 4 * * * root /jffs/ddwrt-adblock-s.sh
+    `0 4 * * * root /jffs/ddwrt-adblock-s.sh`
 9. Reboot  
 10. (Optional) Prevent LAN clients to use their own DNS by ticking/enabling Forced DNS Redirection and  
    Forced DNS Redirection DoT on Basic Setup page
