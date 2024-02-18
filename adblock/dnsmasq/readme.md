@@ -12,11 +12,11 @@ if you want more than see these popular sources of domain lists:
 You can add your own domains you want to [whitelist](https://en.wikipedia.org/wiki/Whitelist) and  
 add your own domains you want to [blacklist](https://en.wikipedia.org/wiki/Blacklisting)
 
-name: ddwrt-adblock-d.sh
-version: 0.92, 18-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
-purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/
-script type: shell script
-installation:
+name: ddwrt-adblock-d.sh  
+version: 0.92, 18-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock  
+purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/  
+script type: shell script  
+installation:  
 1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
 2. enable syslogd (services->services->system log)
 3. copy ddwrt-adblock-d.sh from [egc](https://github.com/egc112/ddwrt/tree/main/adblock/dnsmasq) to /jffs either with:  
