@@ -35,7 +35,7 @@ Setup:
     not want a firewall it will be automatically disabled as there is no WAN so
     no need to change this setting from default.
 
--   Connect LAN \<\> LAN (**do not use the WAN port** unless you really need
+-   Connect LAN \<\> LAN (Although the WAN port is automaticallu addedd to the LAN bridge **do not use the WAN port** unless you really need
     that extra port, for most routers traffic still must use the CPU so
     performance is lacklustre and there are some routers where the WAN port is
     not added to br0 so the WAN port could be non-functional on some routers).
