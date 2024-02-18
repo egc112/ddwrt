@@ -43,5 +43,5 @@ installation:
    Forced DNS Redirection DoT on Basic Setup page
 11. Debug by removing the # on the second line of this script, view with: grep -i adblock /var/log/messages
 
-References
+References  
 https://pymumu.github.io/smartdns/en/config/ad-block/
