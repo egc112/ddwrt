@@ -27,7 +27,7 @@ Setup:
 
 -   Keep DNSMasq enabled (both on Basic Setup page and Services page)
 
--   On Setup \> Advanced Routing, keep Operating mode in the default Gateway
+-   On Setup \> Advanced Routing, keep Operating mode as default Gateway
     (the wiki says Router mode but do not do that, either it does not matter
     (this case) or break things)
 
