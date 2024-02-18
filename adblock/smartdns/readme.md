@@ -7,7 +7,7 @@ if you want more than see these popular sources of domain lists:
 	You can get the URL of the list by clicking on the `RAW` button in the upper right corner,  
 	remove `https://` and add the URL to the URL list in the script.  
 - `https://oisd.nl/setup `  
-  Use the `domainswild2` lists
+  Use the `domainswild2` lists  
   Select small/big/nsfw or a combination, right click to get the URL and remove `https://`  
 
 You can add your own domains you want to [whitelist](https://en.wikipedia.org/wiki/Whitelist) and  
