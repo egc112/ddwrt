@@ -26,7 +26,7 @@ installation:
 4. Make executable: `chmod +x /jffs/ddwrt-adblock-s.sh`
 5. Add to Administration > Commands: `/jffs/ddwrt-adblock-s.sh &`  
      If placed on USB then "Save USB" ; if jffs2 is used then : "Save Startup"  
-     Depending on the speed of your router or use of VPN, you might need to precede the command with: sleep 30  
+     Depending on the speed of your router or use of VPN, you might need to precede the command with: `sleep 30`  
 6. Add the following to the "additional smartdns options" field on the services page:  
    `conf-file /tmp/*.adblock`  
 7. Modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
