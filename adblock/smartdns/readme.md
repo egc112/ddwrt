@@ -43,3 +43,4 @@ installation:
   
 References  
 https://pymumu.github.io/smartdns/en/config/ad-block/
+https://forum.dd-wrt.com/phpBB2/viewtopic.php?t=334605 
