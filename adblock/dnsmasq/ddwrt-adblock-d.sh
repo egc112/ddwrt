@@ -2,7 +2,7 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 # name: ddwrt-adblock-d.sh
-# version: 0.92, 18-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
+# version: 0.93, 25-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 # purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/
 # script type: shell script
 # installation:
@@ -70,6 +70,9 @@ MAX_WAIT=60
 # ------------------------------- END OPTIONS -------------------------------- #
 
 # ---------------------- DO NOT CHANGE BELOW THIS LINE ----------------------- #
+echo "adblock: Started be patient, this can take up to two minutes"
+sleep $MAX_WAIT
+
 add_myblacklist(){
 for domain in $MYBLACKLIST; do
 	echo "local=/$domain/" >> $BLACKLIST
