@@ -2,7 +2,7 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 # name: ddwrt-adblock-s.sh
-# version: 0.1, 18-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
+# version: 0.2, 25-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 # purpose: blacklist specific domains in smartdns using a list of domains
 # script type: shell script
 # installation:
@@ -70,7 +70,7 @@ MAX_WAIT=60
 
 # ---------------------- DO NOT CHANGE BELOW THIS LINE ----------------------- #
 # sleep to let the router Startup
-#sleep $MAX_WAIT
+sleep $MAX_WAIT
 
 # domains to be blacklisted
 BLACKLIST='/tmp/blacklisted_domains.sblck'; > $BLACKLIST
