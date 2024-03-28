@@ -2,7 +2,7 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 # name: ddwrt-adblock-s.sh
-# version: 0.2, 25-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
+# version: 0.3, 28-mrt-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 # purpose: blacklist specific domains in smartdns using a list of domains
 # script type: shell script
 # installation:
@@ -19,7 +19,7 @@
 # 6. add the following to the "additional smartdns options" field on the
 #    services page:
 #      conf-file /tmp/*.adblock
-# 7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
+# 7. modify options in the script below e.g. URL list, MYWHITELIST and MYBLACKLIST:
 #     vi /jffs/ddwrt-adblock-s.sh 
 #     or edit with WinSCP
 # 8. (optional) enable cron (administration->management) and add the
@@ -29,6 +29,7 @@
 #10. (optional) Prevent LAN clients to use their own DNS by ticking/enabling Forced DNS Redirection and
 #    Forced DNS Redirection DoT on Basic Setup page
 #11. Debug by removing the # on the second line of this script, view with: grep -i adblock /var/log/messages
+#12. Stop adblock with: killall ddwrt-adblock-s.sh
 (
 # ------------------------------ BEGIN OPTIONS ------------------------------- #
 
@@ -37,7 +38,6 @@
 #       contain *very* large lists of blacklisted domains, which may exceed
 #       the memory capacity of the router and/or smartdns, and *may* have a
 #       detrimental affect on dns performance
-
 URL_LIST='
 https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/light.txt
 #https://small.oisd.nl/domainswild2
@@ -70,6 +70,7 @@ MAX_WAIT=60
 
 # ---------------------- DO NOT CHANGE BELOW THIS LINE ----------------------- #
 # sleep to let the router Startup
+echo "adblock: Started be patient, this can take up to two minutes"
 sleep $MAX_WAIT
 
 # domains to be blacklisted
@@ -85,10 +86,6 @@ for domain in $MYBLACKLIST; do
 	echo "$domain" >> $BLACKLIST
 done
 }
-
-rogue_check() {
-	# Get line number and match of any rogue elements
-	#LC_ALL=C sed -nE '\~(^(local|server|address)=/)[[:alnum:]*][[:alnum:]*_.-]+(/$)|^#|^\s*$~d;{p;=;}' $1 | 
 
 	LC_ALL=C sed -nE '/[.].*[a-zA-Z0-9][a-zA-Z0-9-]+([.][a-zA-Z]{2,15})?$/d;{p;=;}' $1 |
 	while read line1; do
@@ -137,7 +134,6 @@ for url in $URL_LIST; do
     # retrieve url as raw blacklist
     $GET_URL $url > $RAW_BLACKLIST || { echo "adblock: ERROR: $url"; continue; }
 	# Clean
-	#sed 's/\s*#.*$//; s/^[ \t]*//; s/[ \t]*$//; /^\s*$/d; s/\(^address\|^server|^local\)//; \' $RAW_BLACKLIST >> $BLACKLIST
 	sed 's/\s*#.*$//; s/^[ \t]*//; s/[ \t]*$//; /^\s*$/d; s/\(^address=\|^server=\|^local=\)//; s/^www.//; s/\///g; \' $RAW_BLACKLIST >> $BLACKLIST
 done
 
@@ -158,11 +154,6 @@ if [ "$(echo $MYWHITELIST)" ]; then
     sed -ri "/$(echo $MYWHITELIST | \
 		sed -r 's/\*//g;s/( |$)/\\\/$|/g;s/\|$//;s/\./\\./g')/d" \
             $BLACKLIST
-	#alternate add domains with :/# e.g.: local=/zzzregsizzz.com.ru/# 
-	#for wl in "$(echo $MYWHITELIST)"; do
-	#	sed -i "1i local=\/${wl}\/#" $BLACKLIST
-	#	# echo "local=/${wl}/#" >> $BLACKLIST
-	#done
 fi
 
 # wait for smartdns availability
