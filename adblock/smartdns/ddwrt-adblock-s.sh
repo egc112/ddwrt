@@ -87,6 +87,7 @@ for domain in $MYBLACKLIST; do
 done
 }
 
+rogue_check(){
 	LC_ALL=C sed -nE '/[.].*[a-zA-Z0-9][a-zA-Z0-9-]+([.][a-zA-Z]{2,15})?$/d;{p;=;}' $1 |
 	while read line1; do
 		read line2
