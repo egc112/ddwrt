@@ -14,7 +14,7 @@ You can add your own domains you want to [whitelist](https://en.wikipedia.org/wi
 add your own domains you want to [blacklist](https://en.wikipedia.org/wiki/Blacklisting)
   
 name: ddwrt-adblock-s.sh
-version: 0.1, 18-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
+version: 0.3, 28-mrt-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 purpose: blacklist specific domains in smartdns using a list of domains
 script type: shell script
 installation:
@@ -29,7 +29,7 @@ installation:
      Depending on the speed of your router or use of VPN, you might need to precede the command with: `sleep 30`  
 6. Add the following to the "additional smartdns options" field on the services page:  
    `conf-file /tmp/*.adblock`  
-7. Modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
+7. Modify options int he script e.g. URL list, MYWHITELIST and MYBLACKLIST:  
     `vi /jffs/ddwrt-adblock-s.sh`  
     or edit with WinSCP  
 8. (optional) enable cron (administration->management) and add the  
@@ -38,8 +38,9 @@ installation:
 9. Reboot  
 10. (Optional) Prevent LAN clients to use their own DNS by ticking/enabling Forced DNS Redirection and  
    Forced DNS Redirection DoT on Basic Setup page
-11. Debug by removing the # on the second line of this script, view with: grep -i adblock /var/log/messages  
-  
+11. Debug by removing the # on the second line of this script, view with: grep -i adblock /var/log/messages
+12. Stop adblock with: `killall ddwrt-adblock-s.sh`  
+
   
 References  
 https://pymumu.github.io/smartdns/en/config/ad-block/
