@@ -27,7 +27,7 @@ installation:
     services page:
     `conf-dir=/tmp,*.blck`  
     /tmp/ is the directory where the blocklists: *.blck are placed and can be checked
-7. Modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:  
+7. Modify options in the script e.g. URL list, MYWHITELIST and MYBLACKLIST:  
     `vi /jffs/ddwrt-adblock-d.sh`  
     or edit with WinSCP  
 8. (Optional) enable cron (administration->management) and add the
@@ -36,7 +36,8 @@ installation:
 9. Reboot
 10. (Optional) Prevent LAN clients to use their own DNS by ticking/enabling "Forced DNS Redirection" and  
     "Forced DNS Redirection DoT" on Basic Setup page
-11. Debug by removing the # on the second line of this script, view with: `grep -i adblock /var/log/messages`  
+11. Debug by removing the # on the second line of this script, view with: `grep -i adblock /var/log/messages`
+12. Stop adblock with: `killall ddwrt-adblock-d.sh`  
   
   
 References  
