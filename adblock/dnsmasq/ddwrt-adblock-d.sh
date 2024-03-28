@@ -2,14 +2,14 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 # name: ddwrt-adblock-d.sh
-# version: 0.93, 25-feb-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
+# version: 0.94, 28-mrt-2024, by egc, based on eibgrads ddwrt-blacklist-domains-adblock
 # purpose: blacklist specific domains in dnsmasq (dns) for DNSMasq > version 2.86 using local=/my.blockeddomain/
 # script type: shell script
 # installation:
 # 1. enable jffs2 (administration->jffs2) **or** use usb with jffs directory
 # 2. enable syslogd (services->services->system log)
 # 3. copy ddwrt-adblock-d.sh from https://github.com/egc112/ddwrt/tree/main/adblock/dnsmasq to /jffs
-#    either with: curl -o /jffs/ddwrt-adblock.sh https://raw.githubusercontent.com/egc112/ddwrt/main/adblock/dnsmasq/ddwrt-adblock-d.sh
+#    either with: curl -o /jffs/ddwrt-adblock-d.sh https://raw.githubusercontent.com/egc112/ddwrt/main/adblock/dnsmasq/ddwrt-adblock-d.sh
 #    or by clicking the download icon in the upper right corner of the script
 # 4. make executable: chmod +x /jffs/ddwrt-adblock-d.sh
 # 5. add to Administration  > Commands: 
@@ -20,7 +20,7 @@
 #     services page:
 #     conf-dir=/tmp,*.blck
 #     /tmp/ is the directory where the blocklists: *.blck are placed and can be checked
-# 7. modify options e.g. URL list, MYWHITELIST and MYBLACKLIST:
+# 7. modify options in the script below e.g. URL list, MYWHITELIST and MYBLACKLIST:
 #     vi /jffs/ddwrt-adblock-d.sh 
 #     or edit with WinSCP
 # 8. (optional) enable cron (administration->management) and add the
@@ -30,6 +30,7 @@
 #10. (optional) Prevent LAN clients to use their own DNS by ticking/enabling Forced DNS Redirection and
 #    Forced DNS Redirection DoT on Basic Setup page
 #11. Debug by removing the # on the second line of this script, view with: grep -i adblock /var/log/messages
+#12. Stop adblock with: killall ddwrt-adblock-d.sh
 (
 # ------------------------------ BEGIN OPTIONS ------------------------------- #
 
@@ -38,7 +39,6 @@
 #       contain *very* large lists of blacklisted domains, which may exceed
 #       the memory capacity of the router and/or dnsmasq, and *may* have a
 #       detrimental affect on dns performance
-
 URL_LIST='
 raw.githubusercontent.com/hagezi/dns-blocklists/main/dnsmasq/pro.txt
 #small.oisd.nl/dnsmasq2
@@ -70,6 +70,7 @@ MAX_WAIT=60
 # ------------------------------- END OPTIONS -------------------------------- #
 
 # ---------------------- DO NOT CHANGE BELOW THIS LINE ----------------------- #
+# sleep to let the router Startup
 echo "adblock: Started be patient, this can take up to two minutes"
 sleep $MAX_WAIT
 
@@ -147,6 +148,11 @@ if [ "$(echo $MYWHITELIST)" ]; then
     sed -ri "/$(echo $MYWHITELIST | \
 		sed -r 's/\*//g;s/( |$)/\\\/$|/g;s/\|$//;s/\./\\./g')/d" \
             $BLACKLIST
+	#alternate add domains with :/# e.g.: local=/zzzregsizzz.com.ru/# 
+	for wl in "$(echo $MYWHITELIST)"; do
+		sed -i "1i local=\/${wl}\/#" $BLACKLIST
+		# echo "local=/${wl}/#" >> $BLACKLIST
+	done
 fi
 
 # wait for dnsmasq availability
