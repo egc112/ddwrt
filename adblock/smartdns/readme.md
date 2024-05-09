@@ -29,7 +29,7 @@ installation:
      Depending on the speed of your router or use of VPN, you might need to precede the command with: `sleep 30`  
 6. Add the following to the "additional smartdns options" field on the services page:  
    `conf-file /tmp/*.adblock`  
-7. Modify options int he script e.g. URL list, MYWHITELIST and MYBLACKLIST:  
+7. Modify options in the script: e.g. URL list, MYWHITELIST and MYBLACKLIST:  
     `vi /jffs/ddwrt-adblock-s.sh`  
     or edit with WinSCP  
 8. (optional) enable cron (administration->management) and add the  
