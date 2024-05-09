@@ -2,7 +2,7 @@
 
 This scripts uses domainlists for blocking domains in SmartDNS  
 The script has already some default sources for blocklists incorporated which should work for normal operation but  
-if you want more than see these popular sources of domain lists:  
+if you want more, then see these popular sources of domain lists:  
 - `https://github.com/hagezi/dns-blocklists/tree/main/domains`  
 	You can get the URL of the list by clicking on the `RAW` button in the upper right corner,  
 	remove `https://` and add the URL to the URL list in the script.  
