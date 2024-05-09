@@ -2,7 +2,7 @@
 
 This scripts uses domainlists for DNSMasq > 2.86 with format `local=/blockeddomain/`  
 The script has already some default sources for blocklists incorporated which should work for normal operation but  
-if you want more than see these popular sources of domain lists:  
+if you want more, then see these popular sources of domain lists:  
 - `https://github.com/hagezi/dns-blocklists/tree/main/dnsmasq`  
 	You can get the URL of the list by clicking on the `RAW` button in the upper right corner,  
 	remove `https://` and add the URL to the URL list in the script.  
@@ -27,7 +27,7 @@ installation:
     services page:
     `conf-dir=/tmp,*.blck`  
     /tmp/ is the directory where the blocklists: *.blck are placed and can be checked
-7. Modify options in the script e.g. URL list, MYWHITELIST and MYBLACKLIST:  
+7. Modify options in the script: e.g. URL list, MYWHITELIST and MYBLACKLIST:  
     `vi /jffs/ddwrt-adblock-d.sh`  
     or edit with WinSCP  
 8. (Optional) enable cron (administration->management) and add the
