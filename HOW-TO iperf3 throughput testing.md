@@ -24,9 +24,8 @@ will be consuming extra cpu & ram resources to run IPERF and you won't get
 accurate speed results!.  
   
 This is the setup you want to do for WAN-LAN performance testing:  
+![afbeelding](https://github.com/egc112/ddwrt/assets/63402314/5faf69fe-1991-4812-a610-7cc36d5907de)
 
-
-![](media/ee6f5cf5d3ce8d09c37fc250ce7adfc2.png)
 
 1.  If the router is connected to another upstream router you can simply use one
     of the connected clients of that router as server, no need to change
