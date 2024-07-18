@@ -13,7 +13,7 @@ The following procedure can be used to upgrade with the help of the CFE mini web
 8.	Upload new build with CFE miniwebserver
 
 Alternatively you can use a special made build which makes it possible to write to the first boot partition: linux instead of linux2.  
-Important is to delete (unset) the bootpartion nvram variable or to set it to 0 to indicating you want to write to the first boot partition (linux): 
+Important is to delete (unset) the bootpartion nvram variable or to set it to 0 to indicate you want to write to the first boot partition (linux): 
 1. Download the patched firmware from: https://github.com/egc112/ddwrt/tree/main/EA6900-XVortex
 2. Unzip firmware  
 3.	From the command line do: `nvram unset bootpartition; nvram commit`  
