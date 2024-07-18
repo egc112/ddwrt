@@ -8,8 +8,8 @@ The following procedure can be used to upgrade with the help of the CFE mini web
 3.	Do not connect WAN cable  
 4.	Connect PC to port 1 set static address 192.168.1.10/24 gateway 192.168.1.1  
 5.	Hard Reset to defaults with power down  and holding blue WPS button for about 10 sec until the light starts blinking 
-6.	Invoke CFE mini webserver: power down, hold rest button with a pin for about 10 sec while powering up  
-7.	Go to http://192.168.1.1 and you should see the CFE mini webserver  
+6.	Invoke CFE mini webserver: power down, hold reset button with a pin for about 10-12 sec while powering up  
+7.	Go to http://192.168.1.1 and you should see the CFE mini webserver, it might need more than one try  
 8.	Upload new build with CFE miniwebserver
 
 Alternatively you can use a special made build which makes it possible to write to the first boot partition: linux instead of linux2.  
