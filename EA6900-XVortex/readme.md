@@ -9,4 +9,26 @@ The following procedure can be used to upgrade with the help of the CFE mini web
 5.	Hard Reset to defaults with power down  and holding blue WPS button for about 10 sec until the light starts blinking 
 6.	Invoke CFE mini webserver: power down, hold rest button with a pin for about 10 sec while powering up  
 7.	Go to http://192.168.1.1 and you should see the CFE mini webserver  
-8.	Upload new build with CFE miniwebserver  
+8.	Upload new build with CFE miniwebserver
+
+Alternatively you can use a special made build which makes it possible to write to the first boot partition: linux instead of linux2.  
+Important is to delete (unset) the bootpartion nvram variable or to set it to 0 to indicating you want to write to the first boot partition (linux): 
+1.	From the command line do: `nvram unset bootpartition; nvram commit`  
+2.	Upload via GUI.  
+
+```
+Patch
+Index: src/router/rc/mtd.c
+===================================================================
+--- src/router/rc/mtd.c	(revision 57160)
++++ src/router/rc/mtd.c	(working copy)
+@@ -396,7 +396,7 @@
+ 			nvram_seti("bootpartition", 0);
+ 			_nvram_commit();
+ 		} else {
+-			mtd = "linux2";
++			mtd = "linux";
+ 			nvram_seti("bootpartition", 1);
+ 			_nvram_commit();
+ 		}
+```
