@@ -23,6 +23,9 @@ Important is to delete (unset) the bootpartion nvram variable or to set it to 0 
 Build is as I am using it with Wifi, OpenVPN, WireGuard, DDNS, IPv6, SmartDNS, minDLNA/USB/NAS, mDNS/Avahi but no fancy stuff.
 It has some extra stuff I am working on e.g. an extra GUI page, ipset for WireGuard, full net isolation of all bridges in case `net isolation` is set on an extra bridge, and some more tweaks
 The build is tested to run on my own EA6900.  
+
+Disclaimer: Using third party can brick your router for which I do not take any responsibility, neither am I giving support or answer questions.  
+If you have questions just ask at the [DDWRT Forum](https://forum.dd-wrt.com/phpBB2/index.php).  
   
 ```
 Patch
