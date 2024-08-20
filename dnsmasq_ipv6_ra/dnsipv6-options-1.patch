@@ -1,0 +1,95 @@
+Index: opt/etc/config/base.nvramconfig
+===================================================================
+--- opt/etc/config/base.nvramconfig	(revision 58085)
++++ opt/etc/config/base.nvramconfig	(working copy)
+@@ -136,6 +136,9 @@
+  "dnsipv6_rastate"  "IPv6 slaac or ra-stateless"  "CHOICE"  "2" "0"  "1"  "FALSE" "0"
+  "dnsipv6_leasetime"  "IPv6 leasetime"  "RANGE"  "0" "99999" "FALSE" "0"
+  "dnsipv6_enable" "dnsipv6 handler" "DNSIPV6" "FALSE" "0"
++ "dnsipv6_range_start"  "IPv6 DHCP start" "NULL" "TRUE" "0"
++ "dnsipv6_range_end"  "IPv6 DHCP end" "NULL" "TRUE" "0"
++ "dnsipv6_ralifetime"  "IPv6 RA lifetime"  "RANGE"  "60" "99999" "FALSE" "0"
+  "dnsmasq_options"  "DNS Masq"  "NULL"  "TRUE" "0"
+  "dnsmasq_cachesize"  "DNS Cache Size"  "RANGE"  "0" "99999999" "FALSE" "0"
+  "dnsmasq_forward_max"  "DNS Forward Max"  "RANGE"  "0" "99999999" "FALSE" "0"
+Index: src/router/kromo/dd-wrt/lang_pack/english.js
+===================================================================
+--- src/router/kromo/dd-wrt/lang_pack/english.js	(revision 58085)
++++ src/router/kromo/dd-wrt/lang_pack/english.js	(working copy)
+@@ -1834,6 +1834,9 @@
+ service.dnsmasq_ipv6_rastate="DHCP6 RA mode";
+ service.dnsmasq_ipv6_rastateful="Stateful DHCP6";
+ service.dnsmasq_ipv6_rastateless="Stateless DHCP6";
++service.dnsmasq_ipv6_ralifetime="DHCP6 RA lifetime";
++service.dnsmasq_ipv6_dhcp6_start_end="DHCP6 Range, Start - End";
++service.dnsmasq_ipv6_dhcp6_leasetime="DHCP6 Lease Expiration";
+ service.dns_smartdns="SmartDNS Resolver";
+ service.dns_smartdns_label="Enable Resolver";
+ service.dns_smartdns_dualstack="Dualstack IP Selection";
+Index: src/router/kromo/dd-wrt/lang_pack/german.js
+===================================================================
+--- src/router/kromo/dd-wrt/lang_pack/german.js	(revision 58085)
++++ src/router/kromo/dd-wrt/lang_pack/german.js	(working copy)
+@@ -1687,6 +1687,9 @@
+ service.dnsmasq_ipv6_rastate="DHCP6 RA mode";
+ service.dnsmasq_ipv6_rastateful="Stateful DHCP6";
+ service.dnsmasq_ipv6_rastateless="Stateless DHCP6";
++service.dnsmasq_ipv6_ralifetime="DHCP6 RA lifetime";
++service.dnsmasq_ipv6_dhcp6_start_end="DHCP6 Range, Start - End";
++service.dnsmasq_ipv6_dhcp6_leasetime="DHCP6 Lease Expiration";
+ 
+ //pptp.webservices
+ service.pptp_h2="PPTP Server / Client";
+Index: src/router/services/services/dnsmasq.c
+===================================================================
+--- src/router/services/services/dnsmasq.c	(revision 58085)
++++ src/router/services/services/dnsmasq.c	(working copy)
+@@ -753,7 +753,7 @@
+ 				fprintf(fp, "dhcp-range=::%s,::%s,constructor:%s,ra-names,%s,%s\n",
+ 					nvram_safe_get("dnsipv6_range_start"), nvram_safe_get("dnsipv6_range_end"), ifname,
+ 					dnsipv6_rastate, ipv6_leasetime);
+-				fprintf(fp, "ra-param=%s%s\n", ifname, ",10,300");
++				fprintf(fp, "ra-param=%s%s\n", ifname, ",10,", nvram_safe_get("dnsipv6_ralifetime"));
+ 			}
+ 
+ 			fprintf(fp, "enable-ra\n");
+Index: src/router/services/sysinit/defaults.c
+===================================================================
+--- src/router/services/sysinit/defaults.c	(revision 58085)
++++ src/router/services/sysinit/defaults.c	(working copy)
+@@ -2270,6 +2270,7 @@
+ 	{ "dnsipv6_enable", "0" },
+ 	{ "dnsipv6_leasetime", "1440" },
+ 	{ "dnsipv6_rastate", "1" },
++	{ "dnsipv6_ralifetime", "300" },
+ 	{ "dnsipv6_range_start", "1" },
+ 	{ "dnsipv6_range_end", "FFFF" },
+ 	{ "dnsipv6_interfaces", "br0" },
+Index: src/router/udhcpd/config/dhcpd.webservices
+===================================================================
+--- src/router/udhcpd/config/dhcpd.webservices	(revision 58085)
++++ src/router/udhcpd/config/dhcpd.webservices	(working copy)
+@@ -208,7 +208,11 @@
+ 					</div>
+ 					<div id="iddnsmasq_ipv6">
+ 						<div class="setting">
+-							<div class="label"><% tran("idx.dhcp_lease"); %></div>
++							<div class="label"><% tran("service.dnsmasq_ipv6_dhcp6_start_end"); %></div>
++							<input class="num" maxlength="4" size="4" name="dnsipv6_range_start" value="<% nvg("dnsipv6_range_start"); %>" /> - <input class="num" maxlength="4" size="4" name="dnsipv6_range_end" value="<% nvg("dnsipv6_range_end"); %>" />
++						</div>
++						<div class="setting">
++							<div class="label"><% tran("service.dnsmasq_ipv6_dhcp6_leasetime"); %></div>
+ 							<input class="num" maxlength="5" size="4" name="dnsipv6_leasetime" value="<% nvg("dnsipv6_leasetime"); %>" />&nbsp;
+ 							<script type="text/javascript">Capture(share.minutes)</script>
+ 							<span class="default"><script type="text/javascript">
+@@ -218,6 +222,10 @@
+ 							</script></span>
+ 						</div>
+ 						<div class="setting">
++							<div class="label"><% tran("service.dnsmasq_ipv6_ralifetime"); %></div>
++							<input class="num" maxlength="5" size="4" name="dnsipv6_ralifetime" value="<% nvg("dnsipv6_ralifetime"); %>" />
++						</div>
++						<div class="setting">
+ 							<div class="label"><% tran("service.dnsmasq_ipv6_rastate"); %></div>
+ 							<input class="spaceradio" type="radio" name="dnsipv6_rastate" value="1" <% nvc("dnsipv6_rastate", "1"); %> /><% tran("service.dnsmasq_ipv6_rastateful"); %>&nbsp;&nbsp;
+ 							<input class="spaceradio" type="radio" name="dnsipv6_rastate" value="0" <% nvc("dnsipv6_rastate", "0"); %> /><% tran("service.dnsmasq_ipv6_rastateless"); %>
