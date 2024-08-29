@@ -15,9 +15,8 @@ Setup:
     -   Local IP address in subnet of primary router but outside DHCP scope,
         make sure the used IP address is unique on your network you cannot have
         duplicates.  
-        You can run udhcpc to give the WAP a static lease but because you can it
-        doesn't mean you should ;)
-
+        You can run udhcpc to give the WAP a static lease but that is not very practical as that address is not always fixed.
+          
     -   Gateway **and** Local DNS pointing to primary router  
         Example:  
         If your primary router is 192.168.1.1 then set the Local IP address of
