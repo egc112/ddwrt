@@ -51,7 +51,7 @@ Firewall:
 Always necessary (alternatively set static route on main router and NAT
 traffic from VAP/Bridge out via WAN):
 ```
-iptables -t nat -I POSTROUTING -o br0 -j SNAT --to \$(nvram get lan_ipaddr)
+iptables -t nat -I POSTROUTING -o br0 -j SNAT --to $(nvram get lan_ipaddr)
 ```
 
 If you want to only have the VAP/bridge to have internet access and not access
