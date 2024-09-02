@@ -61,28 +61,28 @@ Replace with the appropriate interface of your VAP, e.g. wl0.1, wlan0.1 etc:
 ```
 GUEST_IF="wlan1.1"
 #Net Isolation does not work on a WAP so keep it disabled, add for isolating VAP from main network:  
-iptables -I FORWARD -i \$GUEST_IF -d \$(nvram get lan_ipaddr)/\$(nvram get lan_netmask) -m state --state NEW -j REJECT
+iptables -I FORWARD -i $GUEST_IF -d $(nvram get lan_ipaddr)/$(nvram get lan_netmask) -m state --state NEW -j REJECT
 ```
 
 For isolating the WAP itself from the VAP/bridge:  
 ```
-iptables -I INPUT -i \$GUEST_IF -m state --state NEW -j REJECT
-iptables -I INPUT -i \$GUEST_IF -p udp --dport 67 -j ACCEPT
-iptables -I INPUT -i \$GUEST_IF -p udp --dport 53 -j ACCEPT
-iptables -I INPUT -i \$GUEST_IF -p tcp --dport 53 -j ACCEPT
+iptables -I INPUT -i $GUEST_IF -m state --state NEW -j REJECT
+iptables -I INPUT -i $GUEST_IF -p udp --dport 67 -j ACCEPT
+iptables -I INPUT -i $GUEST_IF -p udp --dport 53 -j ACCEPT
+iptables -I INPUT -i $GUEST_IF -p tcp --dport 53 -j ACCEPT
 ```
 
 To make it simple and isolate the VAP/bridge from all know private subnets which isolate it not only from the main network but also from other bridges:  
 ```
-iptables -I FORWARD -i \$GUEST_IF -d 192.168.0.0/16 -m state --state NEW -j REJECT
-iptables -I FORWARD -i \$GUEST_IF -d 10.0.0.0/8 -m state --state NEW -j REJECT
-iptables -I FORWARD -i \$GUEST_IF -d 172.16.0.0/12 -m state --state NEW -j REJECT
+iptables -I FORWARD -i $GUEST_IF -d 192.168.0.0/16 -m state --state NEW -j REJECT
+iptables -I FORWARD -i $GUEST_IF -d 10.0.0.0/8 -m state --state NEW -j REJECT
+iptables -I FORWARD -i $GUEST_IF -d 172.16.0.0/12 -m state --state NEW -j REJECT
 ```
 
 If you have a lot of VAP's bridges you can make a loop e.g.:  
 ```
 for GUEST_IF in br1 br2 br3 do
-    iptables -I FORWARD -i \$GUEST_IF -d \$(nvram get lan_ipaddr)/\$(nvram get lan_netmask) -m state --state NEW -j REJECT
+    iptables -I FORWARD -i $GUEST_IF -d $(nvram get lan_ipaddr)/$(nvram get lan_netmask) -m state --state NEW -j REJECT
 done
 ```
 
