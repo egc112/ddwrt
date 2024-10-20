@@ -2,7 +2,7 @@
 #DEBUG=; set -x # comment/uncomment to disable/enable debug mode
 
 #	name: wireguard-companion.sh
-#	version: 0.93 beta, 14-jan-2024, by egc
+#	version: 0.99 beta, 20-oct-2024, by egc
 #	purpose: Toggle WireGuard tunnels on/off, show status and log
 #	script type: standalone
 #	installation:
@@ -133,6 +133,14 @@ submenu_showstatus(){
 		stat="$(/usr/bin/wireguard-state.sh $sn 0 2>/dev/null)"
 		[[ -z "$stat" ]] && stat="  No connection present for oet${sn}"
 		echo -e "$stat"
+		ipv4="$(wget -qO- http://ipinfo.io/json)"
+		echo -e "\n  IPv4$(echo "$ipv4" | grep '"ip":') \n  $(echo "$ipv4" | grep '"city":') $(echo "$ipv4" | grep '"country":')"
+		ipv6="$(wget -qO- http://v6.ipinfo.io/json)"
+		if [[ -n "$ipv6" ]]; then
+			echo -e "\n  IPv6$(echo "$ipv6" | grep '"ip":')\n  $(echo "$ipv6" | grep '"city":') $(echo "$ipv6" | grep '"country":')\n"
+		else
+			echo -e "\n  No IPv6 information available\n"
+		fi
 		any_key
 		return 0
 	else
