@@ -15,10 +15,9 @@ The following procedure can be used to upgrade with the help of the CFE mini web
 Alternatively you can use a special made build available from this repo, which makes it possible to write to the first boot partition: linux instead of linux2.  
 **The first time you have to upload this special build with the CFE mini webserver, subsequent upgrades can then be done via the GUI.**  
 Important is to delete (unset) the bootpartion nvram variable or to set it to 0 to indicate you want to write to the first boot partition (linux): 
-1. Download the patched firmware from: https://github.com/egc112/ddwrt/tree/main/EA6900-XVortex
-2. Unzip firmware  
-3.	From the command line do: `nvram unset bootpartition; nvram commit`  
-4.	Upload via GUI.  
+1. Download the patched firmware from: https://github.com/egc112/ddwrt/tree/main/EA6900-XVortex  
+2. From the command line do: `nvram unset bootpartition; nvram commit`  
+3. Upload via GUI.  
   
 Build is as I am using it with Wifi, OpenVPN, WireGuard, DDNS, IPv6, SmartDNS, minDLNA/USB/NAS, mDNS/Avahi but no fancy stuff.
 It has some extra stuff I am working on e.g. an extra GUI page, ipset for WireGuard, full net isolation of all bridges in case `net isolation` is set on an extra bridge, and some more tweaks
