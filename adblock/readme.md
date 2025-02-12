@@ -1,6 +1,6 @@
 ## Adblock for DDWRT  
 This repo has two simple Adblock script to use for DNSMasq or SmartDNS  
-Alternatives:
+Alternatives:  
 For DNSMasq: 
 - Adblock script of @eibgrad: https://pastebin.com/aySi7RhY  
 - Adblock script of @parashar: https://github.com/m-parashar/adblock  
