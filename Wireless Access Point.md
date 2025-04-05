@@ -39,7 +39,7 @@ Setup:
     performance is lacklustre and there are some routers where the WAN port is
     not added to br0 so the WAN port could be non-functional on some routers).
 
-Note: For Broadcom routers for best throughput enable CTF on Basic Setup Page
+Note: For Broadcom routers for best throughput enable CTF on Basic Setup Page and if available CTF&FA (several reboots are necessary)
 
 If you have unbridged interfaces on the WAP (Virtual Access Point (VAP), bridg,
 vpn server or vpn cliente etc.), you have to add the following rule to the
