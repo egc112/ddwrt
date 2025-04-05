@@ -52,6 +52,9 @@ Always necessary (alternatively set static route on main router and NAT
 traffic from VAP/Bridge out via WAN):
 ```
 iptables -t nat -I POSTROUTING -o br0 -j SNAT --to $(nvram get lan_ipaddr)
+iptables -t raw -D PREROUTING -j NOTRACK >/dev/null 2>&1
+#Upcoming builds with newer iptables  should use:
+iptables -t raw -D PREROUTING -j CT --notrack >/dev/null 2>&1
 ```
 
 If you want to only have the VAP/bridge to have internet access and not access
