@@ -20,7 +20,7 @@ Important is to delete (unset) the bootpartion nvram variable or to set it to 0 
 3. Upload via GUI.  
   
 Build is as I am using it with Wifi, OpenVPN, WireGuard, DDNS, IPv6, SmartDNS, minDLNA/USB/NAS, mDNS/Avahi but no fancy stuff.
-It has some extra stuff I am working on e.g. an extra GUI page, ipset for WireGuard, SMCRoute for DLNA/SSDP between subnets, full net isolation of all bridges in case `net isolation` is set on an extra bridge, and some more tweaks
+It has some extra stuff I am working on e.g. an extra GUI page, ipset for WireGuard, SMCRoute for DLNA/SSDP between subnets, full net isolation of all bridges in case `net isolation` is set on an extra bridge, and some more tweaks, e.g. if you set the nvram variable disable_loginfail to 1 (`nvram set disable_loginfail=1` ) then the lockout of login after three failed logins is disabled.
 The build is tested to run on my own EA6900.  
 
 Disclaimer: Using third party can brick your router for which I do not take any responsibility, neither am I giving support or answer questions.  
