@@ -15,7 +15,9 @@ Setup:
     -   Local IP address in subnet of primary router but outside DHCP scope,
         make sure the used IP address is unique on your network you cannot have
         duplicates.  
-        You can run udhcpc to give the WAP a static lease but that is not very practical as that address is not always fixed.
+        You can run UDHCPC to give the WAP a static lease but that is not very practical as that address is not always fixed.
+        Builds after 61700 have a GUI option, under Basic Setup > Network Setup, a check box with: "Try DHCP on LAN"
+        Earlier builds can invoke UDHCPC manually see (scroll to bottom): https://wiki.dd-wrt.com/wiki/index.php/Wireless_access_point .     
           
     -   Gateway **and** Local DNS pointing to primary router  
         Example:  
