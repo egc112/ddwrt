@@ -38,7 +38,7 @@ Index: src/router/rc/mtd.c
  		} else {
 -			mtd = "linux2";
 +			mtd = "linux";
- 			nvram_seti("bootpartition", 1);
+ 			nvram_seti("bootpartition", 0);
  			_nvram_commit();
  		}
 ```
