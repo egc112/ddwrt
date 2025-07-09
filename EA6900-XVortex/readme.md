@@ -21,7 +21,7 @@ Important is to delete (unset) the bootpartion nvram variable or to set it to 0 
   
 Build is as I am using it with Wifi, OpenVPN, WireGuard, DDNS, IPv6, SmartDNS, minDLNA/USB/NAS, mDNS/Avahi but no fancy stuff.
 It has some extra stuff I am working on e.g. an extra GUI page, ipset for WireGuard, SMCRoute for DLNA/SSDP between subnets, full net isolation of all bridges in case `net isolation` is set on an extra bridge, and some more tweaks, e.g. if you set the nvram variable disable_loginfail to 1 (`nvram set disable_loginfail=1` ) then the lockout of login after three failed logins is disabled and the flood protection is disabled.
-The build is tested to run on my own EA6900 and on my Netgear R7000 and should be suitable for all Broacom Northstar routers with 64K NVRAM, e.g. Linksys EA6400, Linksys EA6500v2, Linksys EA6700, EA6900, Netgear R6300v2, Netgear R7000.   
+The build is tested to run on my own EA6900 and on my Netgear R7000 and should be suitable for all Broacom Northstar routers with 64K NVRAM, e.g. Linksys EA6400, Linksys EA6500v2, Linksys EA6700, Linksys EA6900, Netgear R6300v2, Netgear R7000.   
 You can easily compare DDWRT builds with a hex editor and you will notice that the firmware is exactly the same for these Broadcom Northstar routers.    
 
 Disclaimer: Using third party can brick your router for which I do not take any responsibility, neither am I giving support or answer questions.  
